@@ -1,0 +1,163 @@
+body {background-color: #c93a3a; margin:0px;}
+
+h1   {color: blue;}
+
+.error_str{color: yellow;}
+
+footer{margin-top:5%;text-align:center;}
+
+.header_list
+{
+font-family:Arial;
+font-weight: bold;
+color: green;
+background-color: white; 
+border-radius:50px;
+width: 100%;
+height:50px;
+	background-image:url("Picture/grand_ourse112.jpg");
+background-size:200% 600%;
+background-repeat:no-repeat;
+background-position:5% 85%;
+}
+
+.cercle
+{
+  background:#bfd70e;
+  border-radius:50%;
+  width:50px;
+  height:50px;
+  border:2px solid #679403; 
+}
+
+li,lu{list-style-type: none;}
+
+.picture_index
+{
+	width:20%;
+	height:auto;
+	margin-top:10px;
+}
+
+a:hover
+{
+}
+
+#block_nav
+{
+	display: inline-flex;
+	text-align:center;
+	margin-bottom:5%;
+}
+.nav_obj
+{
+	padding:10px;
+	width:100%;
+}
+.header_list:hover
+{
+border-color:gold;
+}
+
+.block_eos
+{
+font-family:Arial;
+display:inline-grid;
+text-align:right;
+margin-right:10%;
+margin-left:10%;
+}
+
+.block_monitor
+{
+
+display:inline-grid;
+
+height:100%;
+width:50%;
+}
+
+.regulator
+{
+margin-left: 10%;
+margin-right: 10%;
+text-align: center;
+font-family:Arial;
+}
+
+.block_regulator
+{
+display:inline-block;
+margin-left:5px;
+margin-right:5px;
+}
+
+.ss_block_monitor
+{
+font-family:Arial;
+display:inline;
+padding: 3px;
+color: #5bc05b;
+
+}
+
+.voyant
+{
+display:inline-block;
+width: 15px;
+height: 15px;
+margin-top:0px;
+margin-bottom:0px;
+border-radius:50%;
+margin-left:5px;
+margin-right:5px;
+border: inset;
+
+}
+.display_value
+{
+display:inline-block;
+width: 55px;
+height: 20px;
+margin-top:0px;
+margin-bottom:0px;
+margin-left:5px;
+margin-right:5px;
+font-family:Arial;
+color: #5bc05b;
+border: double;
+background-color:black;
+text-align:center;
+border-radius:3px;
+}
+
+.s_block_monitor
+{
+text-align:right;
+padding-right:20%;
+padding-left:5%;
+padding-top:10px;
+}
+
+.chart
+{
+padding-right:10%;
+padding-left:10%;
+margin-top:5%;
+}
+
+.block_stepper
+{
+	padding-left:50%;
+}
+
+.input_number
+{
+	text-align:center;
+	width: 40px;
+	height: 20px;
+}
+
+
+
+

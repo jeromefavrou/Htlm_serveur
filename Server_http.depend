@@ -1,0 +1,161 @@
+# depslib dependency file v1.0
+1563023851 source:/home/rigel/Dev/projet batterie eq2/Server_http/main.cpp
+	<iostream>
+	<chrono>
+	<thread>
+	"Include/init_variable.hpp"
+	"Include/init_com.hpp"
+	"Include/eos_processing.hpp"
+	"data_utility.hpp"
+
+1562176177 source:/home/rigel/Dev/projet batterie eq2/Server_http/Src/serveur.cpp
+	<sys/types.h>
+	<sys/socket.h>
+	<netinet/in.h>
+	<arpa/inet.h>
+	<unistd.h>
+	<netdb.h>
+	<stdio.h>
+	<stdlib.h>
+	<iostream>
+	<map>
+	<vector>
+	<string>
+	<memory>
+	"tram.hpp"
+
+1557502552 /home/rigel/Dev/projet batterie eq2/Server_http/Include/tram.hpp
+	<vector>
+	<string>
+	<sstream>
+	"Error.hpp"
+
+1552066413 /home/rigel/Dev/projet batterie eq2/Server_http/Include/Error.hpp
+	<exception>
+	<string>
+	"utility.hpp"
+
+1557338504 /home/rigel/Dev/projet batterie eq2/Server_http/Include/utility.hpp
+	<dirent.h>
+	<vector>
+	<string>
+	<exception>
+	<system_error>
+	<cstdlib>
+	<iostream>
+	<sstream>
+
+1557338586 /home/rigel/Dev/projet batterie eq2/Server_http/Src/serveur.cpp
+	<sys/types.h>
+	<sys/socket.h>
+	<netinet/in.h>
+	<arpa/inet.h>
+	<unistd.h>
+	<netdb.h>
+	<stdio.h>
+	<stdlib.h>
+	<iostream>
+	<map>
+	<vector>
+	<string>
+	<memory>
+	"tram.hpp"
+
+1552066376 source:/home/rigel/Dev/projet batterie eq2/Server_http/Src/Error.cpp
+	"Error.hpp"
+	<iostream>
+
+1557502626 source:/home/rigel/Dev/projet batterie eq2/Server_http/Src/Tram.cpp
+	"tram.hpp"
+
+1563023718 /home/rigel/Dev/projet batterie eq2/Server_http/Include/data_utility.hpp
+	<fstream>
+	<vector>
+	<map>
+
+1551557407 /home/rigel/Dev/projet batterie eq2/Server_http/Include/client_tcp.hpp
+	<sys/types.h>
+	<sys/socket.h>
+	<netinet/in.h>
+	<arpa/inet.h>
+	<unistd.h>
+	<netdb.h>
+	<stdio.h>
+	<stdlib.h>
+	<iostream>
+	<chrono>
+	<map>
+	<vector>
+	<string>
+	<memory>
+	<thread>
+	"Error.hpp"
+	"tram.hpp"
+	"utility.hpp"
+
+1552320525 source:/home/rigel/Dev/projet batterie eq2/Server_http/Src/Tcp_client.cpp
+	"client_tcp.hpp"
+
+1562014572 /home/rigel/Dev/projet batterie eq2/Server_http/Include/Remote_controle_apn.hpp
+	<fstream>
+	<iostream>
+	<cstdlib>
+	<thread>
+	<sstream>
+	<memory>
+	"tram.hpp"
+	"client_tcp.hpp"
+	"gp2_utility.hpp"
+
+1553041208 /home/rigel/Dev/projet batterie eq2/Server_http/Include/gp2_utility.hpp
+	<fstream>
+	<memory>
+	<map>
+	"utility.hpp"
+	"Error.hpp"
+
+1562426118 source:/home/rigel/Dev/projet batterie eq2/Server_http/Src/Remote_Controle_Apn.cpp
+	"Remote_controle_apn.hpp"
+
+1553038748 source:/home/rigel/Dev/projet batterie eq2/Server_http/Src/Gp2_utility.cpp
+	"gp2_utility.hpp"
+
+1557338504 source:/home/rigel/Dev/projet batterie eq2/Server_http/Src/Utility.cpp
+	"utility.hpp"
+
+1562267526 /home/rigel/Dev/projet batterie eq2/Server_http/Include/init_variable.hpp
+	<map>
+	<string>
+	<vector>
+
+1563023860 /home/rigel/Dev/projet batterie eq2/Server_http/Include/init_com.hpp
+	"Error.hpp"
+	"serveur.hpp"
+	"Remote_controle_apn.hpp"
+
+1557338586 /home/rigel/Dev/projet batterie eq2/Server_http/Include/serveur.hpp
+	<sys/types.h>
+	<sys/socket.h>
+	<netinet/in.h>
+	<arpa/inet.h>
+	<unistd.h>
+	<netdb.h>
+	<stdio.h>
+	<stdlib.h>
+	<iostream>
+	<map>
+	<vector>
+	<string>
+	<memory>
+	"tram.hpp"
+
+1562428594 /home/rigel/Dev/projet batterie eq2/Server_http/Include/eos_processing.hpp
+	<chrono>
+	<thread>
+	<map>
+	<vector>
+	<string>
+	<algorithm>
+	"utility.hpp"
+	"Remote_controle_apn.hpp"
+

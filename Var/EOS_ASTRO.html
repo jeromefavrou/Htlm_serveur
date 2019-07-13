@@ -1,0 +1,39 @@
+<div class="block_eos">
+<form action="EOS_ASTRO.html" method="POST" >
+    <label for="file_directorie_seq"> chemin </label>
+    <input type="text" name="APN.DIRECTORIE" placeholder="/mnt/usb_mnt/" required>
+	<br/>
+	<label for="frame"> frame </label>
+    <input type="number" name="APN.FRAMES" placeholder="10" required>
+	<br/>
+	<label for="expo"> exposition </label>
+    <input type="number" name="APN.EXPOSURE" placeholder="10" required>
+	<br/>
+	<label for="ouverture"> ouverture </label>
+	<select name="APN.APERTURE">
+		$APERTURE$
+	</select>
+	<br/>
+	<label for="iso"> iso </label>
+	<select name="APN.ISO">
+		$ISO$
+	</select>
+	<br/>
+    <button> valider </button>
+</form>
+
+<form action="EOS_ASTRO.html" method="POST" >
+    <button name="APN.ACTION.VALUE" value="&APN.ACTION.VALUE&"> &APN.ACTION.NAME& </button>
+</form>
+
+</div>
+<div class="block_eos">
+<p>&APN.STAT&</p>
+<p>chemin pris en compte: &APN.DIRECTORIE&</p>
+<p>frame pris en compte: &APN.FRAMES&</p>
+<p>exposition prise en compte: &APN.EXPOSURE&</p>
+<p>ouverture prise en compte: &APN.APERTURE&</p>
+<p>iso prise en compte: &APN.ISO&</p>
+<p>frame realisé: &APN.COUNTER&</p>
+</div>
+

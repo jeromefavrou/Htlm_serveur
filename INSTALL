@@ -1,0 +1,25 @@
+mkdir -vp obj/Debug/Src
+mkdir -vp bin/Debug
+
+g++ -Wall -fexceptions -std=c++14 -g -IInclude -IInclude -c "/home/rigel/Dev/projet batterie eq2/Server_http/main.cpp" -o obj/Debug/main.o
+
+g++ -Wall -fexceptions -std=c++14 -g -IInclude -IInclude -c "/home/rigel/Dev/projet batterie eq2/Server_http/Src/Error.cpp" -o obj/Debug/Src/Error.o
+
+g++ -Wall -fexceptions -std=c++14 -g -IInclude -IInclude -c "/home/rigel/Dev/projet batterie eq2/Server_http/Src/Gp2_utility.cpp" -o obj/Debug/Src/Gp2_utility.o
+
+g++ -Wall -fexceptions -std=c++14 -g -IInclude -IInclude -c "/home/rigel/Dev/projet batterie eq2/Server_http/Src/Remote_Controle_Apn.cpp" -o obj/Debug/Src/Remote_Controle_Apn.o
+
+g++ -Wall -fexceptions -std=c++14 -g -IInclude -IInclude -c "/home/rigel/Dev/projet batterie eq2/Server_http/Src/serveur.cpp" -o obj/Debug/Src/serveur.o
+
+g++ -Wall -fexceptions -std=c++14 -g -IInclude -IInclude -c "/home/rigel/Dev/projet batterie eq2/Server_http/Src/Tcp_client.cpp" -o obj/Debug/Src/Tcp_client.o
+
+g++ -Wall -fexceptions -std=c++14 -g -IInclude -IInclude -c "/home/rigel/Dev/projet batterie eq2/Server_http/Src/Tram.cpp" -o obj/Debug/Src/Tram.o
+
+g++ -Wall -fexceptions -std=c++14 -g -IInclude -IInclude -c "/home/rigel/Dev/projet batterie eq2/Server_http/Src/Utility.cpp" -o obj/Debug/Src/Utility.o
+
+g++  -o bin/Debug/Server_http obj/Debug/main.o obj/Debug/Src/Error.o obj/Debug/Src/Gp2_utility.o obj/Debug/Src/Remote_Controle_Apn.o obj/Debug/Src/serveur.o obj/Debug/Src/Tcp_client.o obj/Debug/Src/Tram.o obj/Debug/Src/Utility.o  -lpthread
+
+cp -r Var/ /bin/Debug
+cp -r Picture/ /bin/Debug
+
+

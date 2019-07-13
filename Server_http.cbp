@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="Server_http" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Debug">
+				<Option output="bin/Debug/Server_http" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Debug/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-std=c++14" />
+					<Add option="-g" />
+					<Add directory="Include" />
+				</Compiler>
+			</Target>
+			<Target title="Release">
+				<Option output="bin/Release/Server_http" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Release/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-O2" />
+					<Add option="-std=c++14" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+					<Add option="-lpthread" />
+				</Linker>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-Wall" />
+			<Add option="-fexceptions" />
+			<Add directory="Include" />
+		</Compiler>
+		<Linker>
+			<Add option="-lpthread" />
+		</Linker>
+		<Unit filename="Include/Remote_controle_apn.hpp" />
+		<Unit filename="Include/data_utility.hpp" />
+		<Unit filename="Include/eos_processing.hpp" />
+		<Unit filename="Include/gp2_utility.hpp" />
+		<Unit filename="Include/init_com.hpp" />
+		<Unit filename="Include/init_variable.hpp" />
+		<Unit filename="Src/Error.cpp" />
+		<Unit filename="Src/Gp2_utility.cpp" />
+		<Unit filename="Src/Remote_Controle_Apn.cpp" />
+		<Unit filename="Src/Tcp_client.cpp" />
+		<Unit filename="Src/Tram.cpp" />
+		<Unit filename="Src/Utility.cpp" />
+		<Unit filename="Src/serveur.cpp" />
+		<Unit filename="main.cpp" />
+		<Extensions>
+			<envvars />
+			<code_completion />
+			<lib_finder disable_auto="1" />
+			<debugger />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>
