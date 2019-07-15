@@ -30,7 +30,7 @@ public:
     class Erreur : public Error
     {
     public:
-         Erreur(int numero, std::string const& phrase,niveau _niveau)throw():Error(numero,phrase,_niveau){this->m_class="RC_Apn::Erreur";};
+         Erreur(int numero, std::string const& _str,level _level)throw():Error(numero,_str,_level){this->m_class="RC_Apn::Erreur";};
         virtual ~Erreur(){};
     };
     ///byts de communication

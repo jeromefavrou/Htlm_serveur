@@ -45,4 +45,15 @@ std::vector<std::string> ls(std::string const & file)noexcept;
 void notify_send(std::string const & msg);
 void free_cmd(std::string const & cmd,bool debug_mode);
 
+class Nocopyable
+{
+   public:
+      Nocopyable(const Nocopyable&) = delete;
+      Nocopyable& operator=(const Nocopyable&) = delete;
+
+   protected:
+      constexpr Nocopyable() = default;
+      ~Nocopyable() = default;
+};
+
 #endif // UTILITY_HPP_INCLUDED

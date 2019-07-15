@@ -30,7 +30,7 @@ class CSocketTCPServeur
     class Erreur : public Error
     {
     public:
-         Erreur(int numero, std::string const& phrase,niveau _niveau)throw():Error(numero,phrase,_niveau){this->m_class="CSocketTCPServeur::Erreur";};
+         Erreur(int numero, std::string const& _str,level _level)throw():Error(numero,_str,_level){this->m_class="CSocketTCPServeur::Erreur";};
         virtual ~Erreur(){};
     };
 
@@ -48,7 +48,7 @@ class CSocketTCPServeur
         Sk_Channel[idx]=std::shared_ptr<SOCKET>(new SOCKET(socket(AF_INET,SOCK_STREAM,0)));
 
         if(*Sk_Channel[idx]==INVALID_SOCKET)
-            throw CSocketTCPServeur::Erreur(1,"Socket Serveur erreur",Error::niveau::ERROR);
+            throw CSocketTCPServeur::Erreur(1,"Socket Serveur erreur",Error::level::ERROR);
     }
 
     void CloseSocket(unsigned int const & idx)
@@ -80,14 +80,14 @@ class CSocketTCPServeur
         it=Sk_Channel.find(idx);
 
         if(it==Sk_Channel.end())
-            throw CSocketTCPServeur::Erreur(2,"Socket ("+ ss_cast<unsigned int,std::string>(idx)+") inutilisable",Error::niveau::ERROR);
+            throw CSocketTCPServeur::Erreur(2,"Socket ("+ ss_cast<unsigned int,std::string>(idx)+") inutilisable",Error::level::ERROR);
 
         this->ServerAdress.sin_addr.s_addr=addr;
         this->ServerAdress.sin_family=AF_INET;
         this->ServerAdress.sin_port=htons(port);
 
         if(bind(*Sk_Channel[idx],(struct sockaddr *)&ServerAdress,sizeof(ServerAdress))==SOCKET_ERROR)
-            throw CSocketTCPServeur::Erreur(3,"le server n'a pas reussi a bind sur le port : "+ss_cast<uint32_t,std::string>(port),Error::niveau::ERROR);
+            throw CSocketTCPServeur::Erreur(3,"le server n'a pas reussi a bind sur le port : "+ss_cast<uint32_t,std::string>(port),Error::level::ERROR);
     }
     void Listen(unsigned int const &idx,unsigned int const &nb)
     {
@@ -95,7 +95,7 @@ class CSocketTCPServeur
         it=Sk_Channel.find(idx);
 
         if(it==Sk_Channel.end())
-            throw CSocketTCPServeur::Erreur(4,"Socket ("+ ss_cast<unsigned int,std::string>(idx)+") inutilisable",Error::niveau::ERROR);
+            throw CSocketTCPServeur::Erreur(4,"Socket ("+ ss_cast<unsigned int,std::string>(idx)+") inutilisable",Error::level::ERROR);
 
         listen(*Sk_Channel[idx],nb);
     }
@@ -106,13 +106,13 @@ class CSocketTCPServeur
         it=Sk_Channel.find(idx);
 
         if(it==Sk_Channel.end())
-            throw CSocketTCPServeur::Erreur(5,"Socket ("+ ss_cast<unsigned int,std::string>(idx)+") inutilisable",Error::niveau::ERROR);
+            throw CSocketTCPServeur::Erreur(5,"Socket ("+ ss_cast<unsigned int,std::string>(idx)+") inutilisable",Error::level::ERROR);
 
         int cu=sizeof(struct sockaddr_in);
         Sk_Client[idxclient]=std::shared_ptr<SOCKET>(new SOCKET(accept(*Sk_Channel[idx],(struct sockaddr *)&ClientAdress,(socklen_t *)&cu)));
 
         if(*Sk_Client[idxclient]<0)
-            throw CSocketTCPServeur::Erreur(6,"la connection n'a pas pue etre établie",Error::niveau::ERROR);
+            throw CSocketTCPServeur::Erreur(6,"la connection n'a pas pue etre établie",Error::level::ERROR);
 
     }
 
@@ -123,7 +123,7 @@ class CSocketTCPServeur
 
         if(it==Sk_Client.end())
         {
-            throw CSocketTCPServeur::Erreur(7,"Socket ("+ ss_cast<unsigned int,std::string>(idx)+") inutilisable",Error::niveau::ERROR);
+            throw CSocketTCPServeur::Erreur(7,"Socket ("+ ss_cast<unsigned int,std::string>(idx)+") inutilisable",Error::level::ERROR);
         }
 
         send(*Sk_Client[idx],buffer.data(),buffer.size(),0);
@@ -134,7 +134,7 @@ class CSocketTCPServeur
         it=Sk_Client.find(idx);
         char buf[octets];
         if(it==Sk_Client.end())
-            throw CSocketTCPServeur::Erreur(8,"Socket ("+ ss_cast<unsigned int,std::string>(idx)+") inutilisable",Error::niveau::ERROR);
+            throw CSocketTCPServeur::Erreur(8,"Socket ("+ ss_cast<unsigned int,std::string>(idx)+") inutilisable",Error::level::ERROR);
 
         int lenght= recv(*Sk_Client[idx] ,buf, octets,0);
 

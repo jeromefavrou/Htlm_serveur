@@ -29,7 +29,7 @@ bool init_com(CSocketTCPServeur & server_http,RC_Apn & Client_eso_astro)
     {
         std::cerr << e.what() << std::endl;
 
-        if(e.get_niveau()!=Error::niveau::WARNING)
+        if(e.get_level()!=Error::level::WARNING)
             return false;
     }
 

@@ -17,7 +17,7 @@ std::vector<char> binary_download(std::string const & file)
     std::fstream If(file,std::ios::in | std::ios::binary);
 
     if(!If || If.fail() || If.bad())
-        throw Error(1,"telechargement de \""+file+"\" impossible",Error::niveau::ERROR);
+        throw Error(1,"telechargement de \""+file+"\" impossible",Error::level::ERROR);
 
     If.seekg (0, If.end);
     long int length = If.tellg();
@@ -63,7 +63,7 @@ std::string generate_list(std::string const & name, std::map<std::string,std::ve
     try
     {
         if(!If || If.fail() ||If.bad())
-            throw Error(6,"telechargement de \""+name+"\" impossible",Error::niveau::ERROR);
+            throw Error(6,"telechargement de \""+name+"\" impossible",Error::level::ERROR);
 
         while(std::getline(If,line))
         {
@@ -175,7 +175,7 @@ std::string generate_html(std::string const & body , std::map<std::string,std::s
     try
     {
         if(!Head_if || Head_if.fail() ||Head_if.bad())
-            throw Error(404,"telechargement de \""+std::string(HEADER_HTML_FILE)+"\" impossible",Error::niveau::WARNING);
+            throw Error(404,"telechargement de \""+std::string(HEADER_HTML_FILE)+"\" impossible",Error::level::WARNING);
 
         while(std::getline(Head_if,line))
             html_file+=line;
@@ -184,7 +184,7 @@ std::string generate_html(std::string const & body , std::map<std::string,std::s
     {
         std::cerr << e.what() << std::endl;
 
-        if(e.get_niveau()==Error::niveau::FATAL_ERROR)
+        if(e.get_level()==Error::level::FATAL_ERROR)
             return html_file;
 
         html_file+="<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\" />\n<title>EOS_ASTRO</title>\n";
@@ -193,7 +193,7 @@ std::string generate_html(std::string const & body , std::map<std::string,std::s
     try
     {
         if(!Style_if || Style_if.fail() ||Style_if.bad())
-            throw Error(404,"telechargement de \""+std::string(STYLE_CSS_FILE)+"\" impossible",Error::niveau::WARNING);
+            throw Error(404,"telechargement de \""+std::string(STYLE_CSS_FILE)+"\" impossible",Error::level::WARNING);
 
         html_file+="<style>\n";
 
@@ -206,7 +206,7 @@ std::string generate_html(std::string const & body , std::map<std::string,std::s
     {
         std::cerr << e.what() << std::endl;
 
-        if(e.get_niveau()==Error::niveau::FATAL_ERROR)
+        if(e.get_level()==Error::level::FATAL_ERROR)
             return html_file;
     }
 
@@ -215,7 +215,7 @@ std::string generate_html(std::string const & body , std::map<std::string,std::s
     try
     {
         if(!Nav_if || Nav_if.fail() ||Nav_if.bad())
-            throw Error(404,"telechargement de \""+std::string(NAV_HTML_FILE)+"\" impossible",Error::niveau::WARNING);
+            throw Error(404,"telechargement de \""+std::string(NAV_HTML_FILE)+"\" impossible",Error::level::WARNING);
 
         while(std::getline(Nav_if,line))
             html_file+=line;
@@ -224,14 +224,14 @@ std::string generate_html(std::string const & body , std::map<std::string,std::s
     {
         std::cerr << e.what() << std::endl;
 
-        if(e.get_niveau()==Error::niveau::FATAL_ERROR)
+        if(e.get_level()==Error::level::FATAL_ERROR)
             return html_file;
     }
 
     try
     {
         if(!Body_if || Body_if.fail() ||Body_if.bad())
-            throw Error(404,"telechargement de \""+body+"\" impossible",Error::niveau::ERROR);
+            throw Error(404,"telechargement de \""+body+"\" impossible",Error::level::ERROR);
 
         while(std::getline(Body_if,line))
         {
@@ -246,7 +246,7 @@ std::string generate_html(std::string const & body , std::map<std::string,std::s
     {
         std::cerr << e.what() << std::endl;
 
-        if(e.get_niveau()==Error::niveau::FATAL_ERROR)
+        if(e.get_level()==Error::level::FATAL_ERROR)
             return html_file;
 
         try
@@ -255,7 +255,7 @@ std::string generate_html(std::string const & body , std::map<std::string,std::s
             Body_if.open(std::string(INDEX_HTML_FILE),std::ios::in);
 
             if(!Body_if || Body_if.fail() ||Body_if.bad())
-                throw Error(404,"telechargement de \""+std::string(INDEX_HTML_FILE)+"\" impossible",Error::niveau::ERROR);
+                throw Error(404,"telechargement de \""+std::string(INDEX_HTML_FILE)+"\" impossible",Error::level::ERROR);
 
             while(std::getline(Body_if,line))
             {
@@ -263,13 +263,13 @@ std::string generate_html(std::string const & body , std::map<std::string,std::s
             }
 
 
-            html_file+="<br/><H1><p class=\"error_str\">"+e.str()+"</p></H1><br/>";
+            html_file+="<br/><H1><p class=\"error_str\">"+e.get_str()+"</p></H1><br/>";
         }
         catch(Error & _e)
         {
             std::cerr << _e.what() << std::endl;
 
-            if(_e.get_niveau()==Error::niveau::FATAL_ERROR)
+            if(_e.get_level()==Error::level::FATAL_ERROR)
                 return html_file;
         }
     }
@@ -277,7 +277,7 @@ std::string generate_html(std::string const & body , std::map<std::string,std::s
     try
     {
         if(!Footer_if || Footer_if.fail() ||Footer_if.bad())
-            throw Error(404,"telechargement de \""+std::string(FOOTER_HTML_FILE)+"\" impossible",Error::niveau::WARNING);
+            throw Error(404,"telechargement de \""+std::string(FOOTER_HTML_FILE)+"\" impossible",Error::level::WARNING);
 
         html_file+="<footer>\n";
 
@@ -290,7 +290,7 @@ std::string generate_html(std::string const & body , std::map<std::string,std::s
     {
         std::cerr << e.what() << std::endl;
 
-        if(e.get_niveau()==Error::niveau::FATAL_ERROR)
+        if(e.get_level()==Error::level::FATAL_ERROR)
             return html_file;
 
          html_file+="<footer>\n</footer>\n";

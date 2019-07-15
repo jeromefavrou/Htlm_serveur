@@ -5,24 +5,26 @@
 #include "Include/init_variable.hpp"
 #include "Include/init_com.hpp"
 #include "Include/eos_processing.hpp"
+#include "Include/th_com_atmega328.hpp"
 
 #include "data_utility.hpp"
 
 using namespace std;
-
-
 
 int main()
 {
 
     bool Cs{true};
 
-    bool sync_eos_client{false};
+    bool sync_eos_client{false},sync_serial{false};
+
+     Uart_atemga_tram data_tram;
 
     std::this_thread::sleep_for(std::chrono::duration<int,std::milli>(3000));//10s
 
     CSocketTCPServeur server_http;
     RC_Apn Client_eso_astro;
+    Serial serial0("/dev/ttyAMA0", BAUD::BR_9600  );
 
     std::map<std::string,std::string> device,input_var;
     std::map<std::string,std::vector<std::string>> list_var;
@@ -32,6 +34,8 @@ int main()
     Cs=init_com(server_http,Client_eso_astro);
 
     std::thread th_eos_proc(&eos_process,std::ref(Cs),std::ref(sync_eos_client),std::ref(Client_eso_astro),std::ref(device),std::ref(input_var),std::ref(list_var));
+    std::thread th_com_atmega(&th_lp_wr,std::ref(Cs),std::ref(serial0),std::ref(sync_serial),std::ref(data_tram));
+
 
     while(Cs)
     {
@@ -82,6 +86,13 @@ int main()
             rep=debuf.get_ss_data();
             extract_var(rep,input_var);
 
+            device["ANALOG0"]=data_tram.TERM_temperture_1;
+            device["ANALOG1"]=data_tram.TERM_temperture_2;
+            device["ANALOG2"]=data_tram.TERM_temperture_3;
+            device["ANALOG3"]=data_tram.TERM_temperture_4;
+            device["ANALOG4"]=data_tram.AM_temperature;
+            device["ANALOG5"]=data_tram.AM_humidity;
+
             if(device["APN.ACTION.VALUE"]=="1")
             {
                 device["APN.ISO"]=input_var["APN.ISO"];
@@ -125,7 +136,7 @@ int main()
         {
             std::cerr << e.what() << std::endl;
 
-            if(e.get_niveau()==Error::niveau::FATAL_ERROR)
+            if(e.get_level()==Error::level::FATAL_ERROR)
                 Cs=false;
         }
 
@@ -133,6 +144,7 @@ int main()
     }
 
     th_eos_proc.join();
+    th_com_atmega.join();
 
     server_http.CloseSocket(SCK);
 

@@ -15,7 +15,7 @@ class Tram
         class Erreur : public Error
         {
         public:
-            Erreur(int numero, std::string const& phrase,niveau _niveau)throw():Error(numero,phrase,_niveau){this->m_class="gp2::Erreur";};
+            Erreur(int numero, std::string const& _str,level _level)throw():Error(numero,_str,_level){this->m_class="gp2::Erreur";};
             virtual ~Erreur(){};
         };
         //ascii correspondance

@@ -82,7 +82,7 @@ void RC_Apn::check_apn(void)
         }
 
         if(device.size()<=0)
-            throw RC_Apn::Erreur(1,"Aucun APN détecté",RC_Apn::Erreur::niveau::ERROR);
+            throw RC_Apn::Erreur(1,"Aucun APN détecté",RC_Apn::Erreur::level::ERROR);
     }
     else
     {
@@ -436,7 +436,7 @@ void RC_Apn::check_acknowledge(VCHAR const & rep_tram)
                     er+=t;
                 }
 
-                throw RC_Apn::Erreur(5,"erreur du serveur: "+er,RC_Apn::Erreur::niveau::WARNING);
+                throw RC_Apn::Erreur(5,"erreur du serveur: "+er,RC_Apn::Erreur::level::WARNING);
             }
             else
             {
@@ -449,19 +449,19 @@ void RC_Apn::check_acknowledge(VCHAR const & rep_tram)
                     std::cerr<<std::endl;
                 }
 
-                throw RC_Apn::Erreur(6,"erreur de tram avec le serveur: ",RC_Apn::Erreur::niveau::ERROR);
+                throw RC_Apn::Erreur(6,"erreur de tram avec le serveur: ",RC_Apn::Erreur::level::ERROR);
             }
         }
         else
         {
-            throw RC_Apn::Erreur(7,"header et footer tram non respecté par le serveur: ",RC_Apn::Erreur::niveau::ERROR);
+            throw RC_Apn::Erreur(7,"header et footer tram non respecté par le serveur: ",RC_Apn::Erreur::level::ERROR);
         }
     }
     else
     {
-         throw RC_Apn::Erreur(8,"Erreur de connexion avec le serveur: ",RC_Apn::Erreur::niveau::ERROR);
+         throw RC_Apn::Erreur(8,"Erreur de connexion avec le serveur: ",RC_Apn::Erreur::level::ERROR);
     }
-    throw RC_Apn::Erreur(9,"Erreur inconnue du avec le serveur: ",RC_Apn::Erreur::niveau::ERROR);
+    throw RC_Apn::Erreur(9,"Erreur inconnue du avec le serveur: ",RC_Apn::Erreur::level::ERROR);
 }
 
 ///-------------------------------------------------------------

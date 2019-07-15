@@ -18,16 +18,16 @@ bool check_for_start(RC_Apn & clt_eos_astro,std::map<std::string,std::string> & 
     try
     {
         if(ss_cast<std::string,unsigned int>(DV["APN.ISO"])<=0u || std::find(clt_eos_astro.get_parameter(gp2::Conf_param::ISO).begin(),clt_eos_astro.get_parameter(gp2::Conf_param::ISO).end(),DV["APN.ISO"])==clt_eos_astro.get_parameter(gp2::Conf_param::ISO).end())
-            throw Error(4,"parametre d' iso incorrecte",Error::niveau::ERROR);
+            throw Error(4,"parametre d' iso incorrecte",Error::level::ERROR);
 
         if(ss_cast<std::string,float>(DV["APN.APERTURE"])<1.0f || std::find(clt_eos_astro.get_parameter(gp2::Conf_param::APERTURE).begin(),clt_eos_astro.get_parameter(gp2::Conf_param::APERTURE).end(),DV["APN.APERTURE"])==clt_eos_astro.get_parameter(gp2::Conf_param::APERTURE).end())
-            throw Error(5,"parametre d' ouverture incorrecte",Error::niveau::ERROR);
+            throw Error(5,"parametre d' ouverture incorrecte",Error::level::ERROR);
 
         if(ss_cast<std::string,unsigned int>(DV["APN.FRAMES"])<=0)
-            throw Error(6,"parametre nombre de frame incorrecte",Error::niveau::ERROR);
+            throw Error(6,"parametre nombre de frame incorrecte",Error::level::ERROR);
 
         if(ss_cast<std::string,unsigned int>(DV["APN.EXPOSURE"])<1)
-            throw Error(7,"parametre d' exposition incorrecte",Error::niveau::ERROR);
+            throw Error(7,"parametre d' exposition incorrecte",Error::level::ERROR);
 
 
         //DV["APN.DIRECTORIE"];
@@ -39,7 +39,7 @@ bool check_for_start(RC_Apn & clt_eos_astro,std::map<std::string,std::string> & 
     {
         std::cerr << e.what() << std::endl;
 
-        DV["APN.STAT"]=e.str();
+        DV["APN.STAT"]=e.get_str();
 
         std::this_thread::sleep_for(std::chrono::duration<int,std::milli>(1000));
 
@@ -75,7 +75,7 @@ void eos_process(bool & Cs,bool & clt_sync,RC_Apn & clt_eos_astro,std::map<std::
         catch(Error & e)
         {
             std::cerr << e.what() << std::endl;
-            DV["APN.STAT"]=e.str();
+            DV["APN.STAT"]=e.get_str();
 
             chk_apn=false;
             clt_sync=false;
@@ -102,7 +102,7 @@ void eos_process(bool & Cs,bool & clt_sync,RC_Apn & clt_eos_astro,std::map<std::
             catch(Error & e)
             {
                 std::cerr << e.what() << std::endl;
-                DV["APN.STAT"]=e.str();
+                DV["APN.STAT"]=e.get_str();
                 clt_sync=false;
                 disconnect=true;
 
