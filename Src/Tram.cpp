@@ -48,7 +48,7 @@ Tram Tram::operator+(VCHAR const & add)
 
     return t;
 }
-Tram Tram::operator+(char const & add)
+Tram Tram::operator+(byte const & add)
 {
     Tram t(*this);
 
@@ -77,7 +77,7 @@ Tram Tram::operator+=(VCHAR const & add)
 
     return *this;
 }
-Tram Tram::operator+=(char const & add)
+Tram Tram::operator+=(byte const & add)
 {
     this->m_data.push_back(add);
 

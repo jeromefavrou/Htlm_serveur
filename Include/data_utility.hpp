@@ -12,7 +12,7 @@
 #define NAV_HTML_FILE "Var/NAV.html"
 
 
-std::vector<char> binary_download(std::string const & file)
+VCHAR binary_download(std::string const & file)
 {
     std::fstream If(file,std::ios::in | std::ios::binary);
 
@@ -23,9 +23,9 @@ std::vector<char> binary_download(std::string const & file)
     long int length = If.tellg();
     If.seekg (0, If.beg);
 
-    std::vector<char> buffer=std::vector<char>(length,0);
+    VCHAR buffer=VCHAR(length,0);
 
-    If.read(buffer.data(),length);
+    If.read((char*)buffer.data(),length);
 
     return buffer;
 }

@@ -1,8 +1,20 @@
 #include "Error.hpp"
 
-Error::Error(int numero, std::string const& _str,level _level) throw():m_numero(numero),m_str(_str),m_level(_level)
+Error::Error(int numero, std::string const& _str,level _level) throw():m_numero(numero),m_str(_str),m_level(_level),m_class("Error"),m_log_stat(true)
 {
-    this->m_class="Error";
+
+}
+std::string Error::level_to_str(void)
+{
+    switch(this->m_level)
+    {
+        case level::WARNING: return "WARNING"; break;
+        case level::ERROR: return "ERROR"; break;
+        case level::FATAL_ERROR: return "FATAL ERROR"; break;
+        default : return "UNKNOW";
+    }
+
+    return "UNKNOW";
 }
 std::string Error::what() throw()
 {
@@ -38,9 +50,25 @@ int Error::get_num(void) const
     return this->m_numero;
 }
 
+void Error::set_log_stat(bool const & _stat)
+{
+    this->m_log_stat=_stat;
+}
+
 Error::level Error::get_level(void) const
 {
     return this->m_level;
 }
 
-Error::~Error() throw(){}
+Error::~Error() throw()
+{
+    if(!this->m_log_stat)
+        return ;
+
+    std::fstream Of(log_path,std::ios::out | std::ios::app);
+
+    std::time_t end_time=std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
+
+    if(Of && !Of.fail() && !Of.bad())
+        Of << std::ctime(&end_time) <<"(" << this->m_class<< ")[" <<this->m_numero << "][" << this->level_to_str()<< "] " << this->m_str << "\n";
+}

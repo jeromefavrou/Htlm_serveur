@@ -6,6 +6,7 @@
 #include "utility.hpp"
 #include "Error.hpp"
 #include "hardware_defined.hpp"
+#include "tram.hpp"
 
 #include <inttypes.h>
 #include <stdio.h>
@@ -26,10 +27,6 @@ class Serial : public Nocopyable
 {
 public:
 
-    typedef std::vector<char> Data;
-
-
-
     class Serial_Error :public Error
     {
         public:
@@ -43,9 +40,11 @@ public:
 
     void write(std::string const & );
 
-    std::string read(void);
+    void write(VCHAR const & );
 
-    char read_c(void);
+    void write(Tram const & );
+
+    byte read_byte(void);
 
     int availble(void);
 

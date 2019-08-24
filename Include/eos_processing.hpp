@@ -82,7 +82,7 @@ void eos_process(bool & Cs,bool & clt_sync,RC_Apn & clt_eos_astro,std::map<std::
             disconnect=true;
             chk_parameter=false;
 
-            std::this_thread::sleep_for(std::chrono::duration<int,std::milli>(1000));
+            std::this_thread::sleep_for(std::chrono::duration<int,std::milli>(5000));
         }
 
         if(disconnect && chk_apn)

@@ -509,9 +509,7 @@ void RC_Apn::Ls_file(gp2::Folder_data & ls_f)
         this->m_client->Write(this->m_id_client,tram.get_data());
 
         rep_tram=this->Recv(15);
-        bool f(false);
 
-        long int str_begin(2),str_end(0);
         std::string last_file;
         std::string buff("");
 

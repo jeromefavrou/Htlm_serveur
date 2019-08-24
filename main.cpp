@@ -20,11 +20,13 @@ int main()
 
      Uart_atemga_tram data_tram;
 
+     Error::add_to_log("--server starting--");
+
     std::this_thread::sleep_for(std::chrono::duration<int,std::milli>(3000));//10s
 
     CSocketTCPServeur server_http;
     RC_Apn Client_eso_astro;
-    Serial serial0("/dev/ttyAMA0", BAUD::BR_9600  );
+    Serial serial0("/dev/ttyAMA0", BAUD::BR_9600 );
 
     std::map<std::string,std::string> device,input_var;
     std::map<std::string,std::vector<std::string>> list_var;
@@ -86,12 +88,12 @@ int main()
             rep=debuf.get_ss_data();
             extract_var(rep,input_var);
 
-            device["ANALOG0"]=data_tram.TERM_temperture_1;
-            device["ANALOG1"]=data_tram.TERM_temperture_2;
-            device["ANALOG2"]=data_tram.TERM_temperture_3;
-            device["ANALOG3"]=data_tram.TERM_temperture_4;
-            device["ANALOG4"]=data_tram.AM_temperature;
-            device["ANALOG5"]=data_tram.AM_humidity;
+            device["ANALOG0"]=ss_cast<float,std::string>(data_tram.in.thermistor[0]);
+            device["ANALOG1"]=ss_cast<float,std::string>(data_tram.in.thermistor[1]);
+            device["ANALOG2"]=ss_cast<float,std::string>(data_tram.in.thermistor[2]);
+            device["ANALOG3"]=ss_cast<float,std::string>(data_tram.in.thermistor[3]);
+            device["ANALOG4"]=ss_cast<float,std::string>(data_tram.in.am2320.temperate);
+            device["ANALOG5"]=ss_cast<float,std::string>(data_tram.in.am2320.humidity);
 
             if(device["APN.ACTION.VALUE"]=="1")
             {
@@ -146,7 +148,10 @@ int main()
     th_eos_proc.join();
     th_com_atmega.join();
 
+
     server_http.CloseSocket(SCK);
+
+    Error::add_to_log("--server ending--");
 
     return 0;
 }
