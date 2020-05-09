@@ -42,6 +42,7 @@ namespace gp2
     void Delete_file(std::string const & file,bool debug_mode);
     void Capture(std::string const & exposure,bool debug_mode);
     void Download_file(std::string const & file,bool debug_mode);
+    Folder_data delta_folder(Folder_data const & ref_f,Folder_data const & data_f);
 }
 
 

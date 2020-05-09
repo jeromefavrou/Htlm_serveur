@@ -14,6 +14,7 @@
 
 VCHAR binary_download(std::string const & file)
 {
+
     std::fstream If(file,std::ios::in | std::ios::binary);
 
     if(!If || If.fail() || If.bad())
@@ -58,12 +59,12 @@ std::string generate_list(std::string const & name, std::map<std::string,std::ve
     std::string buffer{""},line{""},line2{""};
 
 
-    std::fstream If(name+".list",std::ios::in);
+    std::fstream If("Var/"+name+".list",std::ios::in);
 
     try
     {
         if(!If || If.fail() ||If.bad())
-            throw Error(6,"telechargement de \""+name+"\" impossible",Error::level::ERROR);
+            throw Error(6,"telechargement de \"Var"+name+".list\" impossible",Error::level::ERROR);
 
         while(std::getline(If,line))
         {

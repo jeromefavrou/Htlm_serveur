@@ -41,7 +41,7 @@ bool check_for_start(RC_Apn & clt_eos_astro,std::map<std::string,std::string> & 
 
         DV["APN.STAT"]=e.get_str();
 
-        std::this_thread::sleep_for(std::chrono::duration<int,std::milli>(1000));
+        std::this_thread::sleep_for(std::chrono::duration<int,std::milli>(3000));
 
         return false;
     }
@@ -57,6 +57,8 @@ void eos_process(bool & Cs,bool & clt_sync,RC_Apn & clt_eos_astro,std::map<std::
     bool chk_apn{false},chk_parameter{false},disconnect(true);
 
     unsigned int Frames_token(0);
+
+
 
     while(Cs)
     {
@@ -133,10 +135,23 @@ void eos_process(bool & Cs,bool & clt_sync,RC_Apn & clt_eos_astro,std::map<std::
                 while(clt_sync){;}
 
                 clt_sync=true;
+
+                gp2::Folder_data ls_f,ls_f2;
+
+                clt_eos_astro.Ls_file(ls_f);
                 clt_eos_astro.capture_EOS_DSLR(Frames_token==0,"1",DV["APN.ISO"],DV["APN.EXPOSURE"],DV["APN.APERTURE"],"1","9","0","0","4");
+                std::this_thread::sleep_for(std::chrono::duration<int,std::milli>(1500));
+                clt_eos_astro.Ls_file(ls_f2);
+
+
+                auto res=gp2::delta_folder(ls_f,ls_f2);
+
+                clt_eos_astro.download(res,"/mnt/usb_disk/http_srv");
+
                 clt_sync=false;
 
                 Frames_token++;
+
             }
             else if(frame_save<Frames_token)
             {

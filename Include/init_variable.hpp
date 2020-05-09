@@ -55,13 +55,18 @@ void init_input_var(std::map<std::string,std::string> & IV)
     IV["APN.FRAMES"]="/";
     IV["APN.APERTURE"]="/";
     IV["APN.EXPOSURE"]="/";
-    IV["APN.DIRECTORIE"]="/";
     IV["APN.ACTION.VALUE"]="0";
+
+    IV["STEPPER.STAT"]="0";
+    IV["STEPPER.DIR"]="1";
+    IV["STEPPER.SPEED"]="1";
+    IV["STEPPER.ACTION.VALUE"]="0";
 }
 void init_list(std::map<std::string,std::vector<std::string>> & LV)
 {
     LV["ISO"]=std::vector<std::string>(0);
     LV["APERTURE"]=std::vector<std::string>(0);
+    LV["RAW"]=std::vector<std::string>(0);
 }
 void init_var(std::map<std::string,std::string> & DV,std::map<std::string,std::string> & IV,std::map<std::string,std::vector<std::string>> & LV)
 {

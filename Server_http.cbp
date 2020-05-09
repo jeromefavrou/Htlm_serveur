@@ -40,19 +40,25 @@
 		<Linker>
 			<Add option="-lpthread" />
 		</Linker>
+		<Unit filename="Include/Exchanger.hpp" />
+		<Unit filename="Include/Object.hpp" />
 		<Unit filename="Include/Remote_controle_apn.hpp" />
 		<Unit filename="Include/data_utility.hpp" />
 		<Unit filename="Include/eos_processing.hpp" />
 		<Unit filename="Include/gp2_utility.hpp" />
 		<Unit filename="Include/init_com.hpp" />
+		<Unit filename="Include/init_config.hpp" />
 		<Unit filename="Include/init_variable.hpp" />
+		<Unit filename="Include/th_com_atmega328.hpp" />
 		<Unit filename="Src/Error.cpp" />
+		<Unit filename="Src/Exchanger.cpp" />
 		<Unit filename="Src/Gp2_utility.cpp" />
+		<Unit filename="Src/Object.cpp" />
 		<Unit filename="Src/Remote_Controle_Apn.cpp" />
 		<Unit filename="Src/Tcp_client.cpp" />
 		<Unit filename="Src/Tram.cpp" />
 		<Unit filename="Src/Utility.cpp" />
-		<Unit filename="Src/serveur.cpp" />
+		<Unit filename="Src/uart.cpp" />
 		<Unit filename="main.cpp" />
 		<Extensions>
 			<envvars />

@@ -2,55 +2,18 @@
 #define TH_COM_ATMEGA328_HPP_INCLUDED
 
 #include "uart.hpp"
+#include "Exchanger.hpp"
 #include <chrono>
 #include <thread>
 #include <string>
 #include <sstream>
 
-struct stepper_assign
-{
-    byte direction=0x00;
-    byte stat=0x00;
-    byte speed=0x00;
-};
 
-struct output_var
-{
-    struct stepper_assign stepper;
-    std::array<byte,6> out_id;
-    std::array<byte,6> out_stat;
-    std::array<byte,6> out_reg;
-    std::array<byte,4> sensor_reg;
-    std::array<byte,4> direction_reg;
-    std::array<float,4> order_reg;
-    std::array<float,4> proportional_reg;
-    std::array<float,4> intergrate_reg;
-    std::array<float,4> derivate_reg;
-};
 
-struct AM
+void extract_input(Tram & _tram,Exchanger & _in)
 {
-    float humidity;
-    float temperate;
-};
-struct input_var
-{
-    AM am2320;
-    std::array<float,4> thermistor;
-};
-
-struct arduino_tram
-{
-    struct output_var out;
-    struct input_var in;
-};
-
-typedef struct arduino_tram Uart_atemga_tram;
-
-void extract_input(Tram & _tram,struct input_var  & _in)
-{
-    if(_tram.size()!=26)
-        throw Error(1,"serial input invalid size",Error::level::WARNING);
+    if(_tram.size()<=0)
+        return;
 
     if(_tram.get_data().front()!=0x00)
         throw Error(1,"serial input invalid first byte",Error::level::WARNING);
@@ -58,60 +21,31 @@ void extract_input(Tram & _tram,struct input_var  & _in)
     if(_tram.get_data().back()!=(byte)Tram::Com_bytes::EOT)
         throw Error(1,"serial input invalid end byte",Error::level::WARNING);
 
-    _in.am2320.temperate=Tram::cast_to_type<float>(VCHAR(_tram.get_data().begin()+0x01,_tram.get_data().begin()+0x05));
-    _in.am2320.humidity=Tram::cast_to_type<float>(VCHAR(_tram.get_data().begin()+0x05,_tram.get_data().begin()+0x09));
+    _tram.get_data().erase(_tram.get_data().begin());
+    _tram.get_data().pop_back();
 
-    for(auto i=0u;i<_in.thermistor.size();i++)
-        _in.thermistor[i]=Tram::cast_to_type<float>(VCHAR(_tram.get_data().begin()+0x09+i*sizeof(float),_tram.get_data().begin()+0x0D+i*sizeof(float)));
+    try
+    {
+        _in.read(_tram);
+    }
+    catch(Error & e)
+    {
+        std::cerr <<e.what() << std::endl;
+
+        return;
+    }
 }
 
-void insert_output(Tram & _tram,struct output_var & _out)
+void insert_output(Tram & _tram,Exchanger & _out)
 {
-    _tram+=VCHAR{0x00,_out.stepper.stat,_out.stepper.direction,_out.stepper.speed,Tram::Com_bytes::GS};//stepper assign  stat/dir/speed
+    _tram+=0x00;
 
-    _tram+=0x01;//out id assign
-    _tram+=VCHAR(_out.out_id.begin(),_out.out_id.end());
-    _tram+=(byte)Tram::Com_bytes::GS;
+    _tram+= _out.write();
 
-    _tram+=0x02;//out stat assign
-    _tram+=VCHAR(_out.out_stat.begin(),_out.out_stat.end());
-    _tram+=(byte)Tram::Com_bytes::GS;
-
-    _tram+=0x03;//out reg assign
-    _tram+=VCHAR(_out.out_reg.begin(),_out.out_reg.end());
-    _tram+=(byte)Tram::Com_bytes::GS;
-
-    _tram+=0x04;//sensor reg assign
-    _tram+=VCHAR(_out.sensor_reg.begin(),_out.sensor_reg.end());
-    _tram+=(byte)Tram::Com_bytes::GS;
-
-    _tram+=0x05;//direction reg assign
-    _tram+=VCHAR(_out.direction_reg.begin(),_out.direction_reg.end());
-    _tram+=(byte)Tram::Com_bytes::GS;
-
-    _tram+=0x06;//order reg value
-    for(auto & val : _out.order_reg)
-        _tram+=Tram::cast_to_vchar<float>(val);
-    _tram+=(byte)Tram::Com_bytes::GS;
-
-    _tram+=0x07;//Proportional reg value
-    for(auto & val : _out.proportional_reg)
-        _tram+=Tram::cast_to_vchar<float>(val);
-    _tram+=(byte)Tram::Com_bytes::GS;
-
-    _tram+=0x08;//integral reg value
-    for(auto & val : _out.intergrate_reg)
-        _tram+=Tram::cast_to_vchar<float>(val);
-    _tram+=(byte)Tram::Com_bytes::GS;
-
-    _tram+=0x09;//derivate reg value
-    for(auto & val : _out.derivate_reg)
-        _tram+=Tram::cast_to_vchar<float>(val);
-    _tram+=(byte)Tram::Com_bytes::GS;
     _tram+=(byte)Tram::Com_bytes::EOT;
 }
 
-void th_lp_wr(bool & Cs,Serial & com ,bool & sync_serial ,Uart_atemga_tram & var)
+void th_lp_wr(bool & Cs,Serial & com ,bool & sync_serial ,Exchanger & _Variable)
 {
     int len(0);
 
@@ -119,20 +53,45 @@ void th_lp_wr(bool & Cs,Serial & com ,bool & sync_serial ,Uart_atemga_tram & var
 
     while(Cs)
     {
-        std::this_thread::sleep_for(std::chrono::duration<int,std::milli>(3000));
+        std::this_thread::sleep_for(std::chrono::duration<int,std::milli>(1000));
 
         flux.clear();
 
         try
         {
+            Tram caster;
+
+            sync_serial=true;
+
+            insert_output(caster,_Variable);
+
+//////            /*for(auto & i : caster.get_data())
+//////                std::cout << "0x"<<std::hex<<(int) i<< " ";
+//////            std::cout << std::dec << std::endl;*/
+
+            if(caster.size() > sizeof(Exchanger::Header))
+                com.write(caster);
+
+
+            _Variable.get_robj(0x01,Exchanger::DIR::OUTPUT).RW_right=Object::RIGHT::NOT;
+            _Variable.get_robj(0x02,Exchanger::DIR::OUTPUT).RW_right=Object::RIGHT::NOT;
+            _Variable.get_robj(0x03,Exchanger::DIR::OUTPUT).RW_right=Object::RIGHT::NOT;
+
+            caster.clear();
+
+            std::this_thread::sleep_for(std::chrono::duration<int,std::milli>(50));
+
             len=com.availble();
+
+            sync_serial=false;
 
             if(len<=0 || sync_serial)
                 continue;
 
-            Error::add_to_log("serial bytes received: "+ ss_cast<int,std::string>(len));
+                    _Variable.get_robj(0x7F,Exchanger::DIR::OUTPUT).RW_right=Object::RIGHT::NOT;
+                    _Variable.get_robj(0x7F,Exchanger::DIR::OUTPUT)=Tram::cast_to_vchar<byte>(0x00);
 
-            Tram caster;
+            Error::add_to_log("serial bytes received: "+ ss_cast<int,std::string>(len));
 
             sync_serial=true;
 
@@ -141,18 +100,16 @@ void th_lp_wr(bool & Cs,Serial & com ,bool & sync_serial ,Uart_atemga_tram & var
 
             com.flush();
 
-            std::this_thread::sleep_for(std::chrono::duration<int,std::milli>(50));
+            std::this_thread::sleep_for(std::chrono::duration<int,std::milli>(10));
 
-            extract_input(caster,var.in);
+            extract_input(caster,_Variable);
 
             caster.clear();
 
-            //insert_output(caster,var.out);
+            Error::add_to_log("Slave bytes ram memory avaible: "+ ss_cast<int,std::string>(Tram::cast_to_type<int>(_Variable.get_obj(0x03,Exchanger::direction::INPUT).get_obj())));//sur watch dog
 
-            //com.write(caster);
-            //com.flush();
-
-            std::this_thread::sleep_for(std::chrono::duration<int,std::milli>(50));
+            if(Tram::cast_to_type<byte>(_Variable.get_obj(0x02,Exchanger::direction::INPUT).get_obj())!=0x00)
+                Error::add_to_log("Slave num_error: "+ ss_cast<byte,std::string>(Tram::cast_to_type<byte>(_Variable.get_obj(0x02,Exchanger::direction::INPUT).get_obj())));//sur watch dog
 
             sync_serial=false;
         }

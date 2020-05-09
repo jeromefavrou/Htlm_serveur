@@ -36,7 +36,7 @@ public:
         std::time_t end_time=std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
 
         if(Of && !Of.fail() && !Of.bad())
-            Of << std::ctime(&end_time) << ": " << msg << "\n";
+            Of << std::ctime(&end_time) << ": " << msg << "\n\r";
     }
 
     virtual ~Error() throw();

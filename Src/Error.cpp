@@ -70,5 +70,5 @@ Error::~Error() throw()
     std::time_t end_time=std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
 
     if(Of && !Of.fail() && !Of.bad())
-        Of << std::ctime(&end_time) <<"(" << this->m_class<< ")[" <<this->m_numero << "][" << this->level_to_str()<< "] " << this->m_str << "\n";
+        Of << std::ctime(&end_time) <<"(" << this->m_class<< ")[" <<this->m_numero << "][" << this->level_to_str()<< "] " << this->m_str << "\n\r";
 }

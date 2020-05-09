@@ -184,3 +184,32 @@ void gp2::List_files(gp2::Folder_data & F_data,bool debug_mode=false)
 
     std::remove(".ls_files_buffer");
 }
+
+gp2::Folder_data gp2::delta_folder(gp2::Folder_data const & ref_f,gp2::Folder_data const & data_f)
+{
+    gp2::Folder_data delta=data_f;
+    bool f(false);
+
+    for(auto F=delta.begin();F!=delta.end();F++)
+    {
+        for(auto G=F->second.begin();G!=F->second.end();G++)
+        {
+             for(auto H=ref_f.begin();H!=ref_f.end();H++)
+             {
+                for(auto I=H->second.begin();I!=H->second.end();I++)
+                {
+                    if(H->first==F->first && *G==*I)
+                    {
+                        F->second.erase(G);
+                        G--;
+
+                        H=ref_f.begin();
+                        break;
+                    }
+                }
+             }
+        }
+    }
+
+    return delta;
+}
