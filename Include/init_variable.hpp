@@ -21,6 +21,11 @@ void init_display_var(std::map<std::string,std::string> & DV)
     DV["ANALOG4.NAME"]="sonde tmp interne";
     DV["ANALOG5.NAME"]="sonde humidité interne";
 
+    DV["INFO1.NAME"]="point de rosé";
+    DV["INFO1.VALUE"]="-1000";
+    DV["INFO2.NAME"]="% probabilistique de couverture nuageuse";
+    DV["INFO2.VALUE"]="-1000";
+
     DV["OUTPUT0"]="green";
     DV["OUTPUT1"]="black";
     DV["OUTPUT2"]="green";
@@ -61,6 +66,8 @@ void init_input_var(std::map<std::string,std::string> & IV)
     IV["STEPPER.DIR"]="1";
     IV["STEPPER.SPEED"]="1";
     IV["STEPPER.ACTION.VALUE"]="0";
+
+    IV["SHUTDOWN"]="0";
 }
 void init_list(std::map<std::string,std::vector<std::string>> & LV)
 {

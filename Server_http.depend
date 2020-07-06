@@ -159,7 +159,7 @@
 	"utility.hpp"
 	"Remote_controle_apn.hpp"
 
-1578376115 source:/home/pi/Desktop/Htlm_serveur-master/main.cpp
+1578421002 source:/home/pi/Desktop/Htlm_serveur-master/main.cpp
 	<iostream>
 	<chrono>
 	<thread>
@@ -168,8 +168,9 @@
 	"Include/eos_processing.hpp"
 	"Include/th_com_atmega328.hpp"
 	"data_utility.hpp"
+	<cmath>
 
-1578290821 /home/pi/Desktop/Htlm_serveur-master/Include/init_variable.hpp
+1578416634 /home/pi/Desktop/Htlm_serveur-master/Include/init_variable.hpp
 	<map>
 	<string>
 	<vector>
@@ -268,7 +269,7 @@
 	"utility.hpp"
 	"Remote_controle_apn.hpp"
 
-1578169784 /home/pi/Desktop/Htlm_serveur-master/Include/th_com_atmega328.hpp
+1578416795 /home/pi/Desktop/Htlm_serveur-master/Include/th_com_atmega328.hpp
 	"uart.hpp"
 	"Exchanger.hpp"
 	<chrono>

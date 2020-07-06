@@ -88,8 +88,8 @@ void th_lp_wr(bool & Cs,Serial & com ,bool & sync_serial ,Exchanger & _Variable)
             if(len<=0 || sync_serial)
                 continue;
 
-                    _Variable.get_robj(0x7F,Exchanger::DIR::OUTPUT).RW_right=Object::RIGHT::NOT;
-                    _Variable.get_robj(0x7F,Exchanger::DIR::OUTPUT)=Tram::cast_to_vchar<byte>(0x00);
+            _Variable.get_robj(0x7F,Exchanger::DIR::OUTPUT).RW_right=Object::RIGHT::NOT;
+            _Variable.get_robj(0x7F,Exchanger::DIR::OUTPUT)=Tram::cast_to_vchar<byte>(0x00);
 
             Error::add_to_log("serial bytes received: "+ ss_cast<int,std::string>(len));
 
@@ -125,6 +125,7 @@ void th_lp_wr(bool & Cs,Serial & com ,bool & sync_serial ,Exchanger & _Variable)
                 break;
             }
         }
+
     }
 }
 

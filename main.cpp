@@ -9,7 +9,30 @@
 
 #include "data_utility.hpp"
 
+#include <cmath>
+
 using namespace std;
+
+double rose_point(double  temperature, double humidity)
+{
+    if(temperature < 0 || temperature > 60)
+        return -1000;
+
+    humidity = humidity < 0.01 ? 0.01 : humidity >1.0 ? 1.0 : humidity;
+
+
+    double const alpha{17.27};
+    double const beta{237.7};
+
+    auto aTH = ((alpha * temperature) / (beta + temperature)) + log(humidity);
+
+    return (beta*aTH) / ( alpha - aTH) ;
+}
+
+inline double prob_nuage(double const & temperature, double const & rose_point)
+{
+    return 1/(1+ exp(- 1.5 * (temperature -  rose_point) + 2.5 * 1.5));
+}
 
 int main()
 {
@@ -39,9 +62,7 @@ int main()
      Variable.get_robj(0x02,Exchanger::DIR::OUTPUT)=Tram::cast_to_vchar<byte>(0x00);
      Variable.get_robj(0x03,Exchanger::DIR::OUTPUT)=Tram::cast_to_vchar<byte>(0x01);
 
-
      Variable.get_robj(0x7F,Exchanger::DIR::OUTPUT)=Tram::cast_to_vchar<byte>(0x01);
-
 
      Error::add_to_log("--server starting--");
 
@@ -75,6 +96,9 @@ int main()
         try
         {
             server_http.AcceptClient(SCK,0);
+
+            Variable.create(0x7F,Object::TYPE::BYTE,Exchanger::DIR::OUTPUT,Object::RIGHT::W); ///getter_data
+            Variable.get_robj(0x7F,Exchanger::DIR::OUTPUT)=Tram::cast_to_vchar<byte>(0x01);
 
             //system("clear");
 
@@ -161,6 +185,23 @@ int main()
                 device["APN.ACTION.VALUE"]="1";
             }
 
+            if(input_var["SHUTDOWN"]=="1")
+            {
+                Variable.get_robj(0x01,Exchanger::DIR::OUTPUT).RW_right=Object::RIGHT::W;
+
+                Variable.get_robj(0x01,Exchanger::DIR::OUTPUT)=Tram::cast_to_vchar<byte>(0x00);
+
+                std::this_thread::sleep_for(std::chrono::duration<int,std::milli>(10000));///10s
+
+                Cs=false;
+                break;
+            }
+
+
+            double rose=rose_point(Tram::cast_to_type<float>(Variable.get_obj(0x04,Exchanger::DIR::INPUT).get_obj()),Tram::cast_to_type<float>(Variable.get_obj(0x05,Exchanger::DIR::INPUT).get_obj())/100.0);
+            device["INFO1.VALUE"]=ss_cast<float,std::string>(rose);
+            device["INFO2.VALUE"]=ss_cast<float,std::string>((1-prob_nuage(Tram::cast_to_type<float>(Variable.get_obj(0x04,Exchanger::DIR::INPUT).get_obj()),rose))*100.0);
+
             list_var["RAW"]=ls("http_srv/");
 
             ifstream If("Header.html");
@@ -198,6 +239,10 @@ int main()
     server_http.CloseSocket(SCK);
 
     Error::add_to_log("--server ending--");
+
+    if(input_var["SHUTDOWN"]=="1")
+        system("shutdown -t 0");
+
 
     return 0;
 }
